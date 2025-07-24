@@ -1,0 +1,13 @@
+# BE CAREFUL NOT TO SHARE YOUR KEY
+# DO NOT SHARE  the .env file once you have populated it with your key
+#
+# Copy this env_template.txt file and name it .env (yes, the extension only)
+# A .env file is typically hidden/invisible in the file system 
+# Ask UMGPT: "how to unhide .env files on Mac, Windows, Linux"
+MODEL=gpt-4o
+OPENAI_API_BASE=https://api.umgpt.umich.edu/azure-openai-api
+# Obtain a secret key from ITS for UMGPT Toolkit
+OPENAI_API_KEY=SECRET_KEY
+# Your U-M Shortcode is required for billing (or at least future billing).
+OPENAI_ORGANIZATION=SHORTCODE
+API_VERSION=2024-06-01

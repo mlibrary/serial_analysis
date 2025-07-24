@@ -1,0 +1,61 @@
+
+    Example:
+    Text: 'Author Manuscript Author Manuscript Author Manuscript Author Manuscript
+        HHS Public Access
+        Author manuscript
+        J Am Geriatr Soc . Author manuscript; available in PMC 2022 January 01.
+        Published in final edited form as:
+        J Am Geriatr Soc . 2021 January ; 69(1): 129–139. doi:10.1111/jgs.16817.
+        Do Caregiving Factors Affect Hospitalization Risk Among
+        Disabled Older Adults?
+        Halima Amjad, MD, MPHa,b, John Mulcahy, MSPHc,d, Judith D. Kasper, PhDc,d, Julia Burgdorf, PhDc,d, David L. Roth, PhDa,b, Ken Covinsky, MD, MPHe, Jennifer L. Wolff, PhDc,d
+        aJohns Hopkins University School of Medicine, Division of Geriatric Medicine and Gerontology, Baltimore, MD
+        bCenter on Aging and Health, Johns Hopkins University, Baltimore, MD
+        cJohns Hopkins University Bloomberg School of Public Health, Department of Health Policy and Management, Baltimore, MD
+        dRoger C. Lipitz Center for Integrated Health Care, Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD
+        eUniversity of California San Francisco, Division of Geriatrics, San Francisco, CA
+    
+        Participants: 2,589 community-living Medicare fee-for-service beneficiaries age ≥ 65 (mean age
+        79, 63% women, 31% with dementia) with self-care or mobility disability and their primary family
+        or unpaid caregiver.
+
+        Inclusion and exclusion criteria for this study maximized cross-year comparability in
+        measurement of disability32 and caregiving33 and have been described previously.31,34,35
+        From NLTCS and NHATS, we included community-living older adult participants who
+        received help with at least one self-care (eating, dressing, bathing, or toileting) or indoor
+        mobility (transferring or getting around inside) task from family or unpaid caregivers who
+        completed a caregiver survey. We excluded residents of nursing homes or other residential
+        facilities (n=4,318). We also excluded older adults insured by Medicare Advantage plans
+        (n=833) and focused on those enrolled in fee-for-service Medicare, for whom we could
+        assess hospitalization. The NLTCS-linked ICS was administered to the “primary” caregiver,
+        defined as the family or unpaid nonfamily caregiver who helped the participant the most. In
+        the NHATS-linked NSOC, we included a single “primary” caregiver as well, defined as the
+        family or unpaid nonfamily caregiver providing the most hours of help weekly among the
+        caregivers interviewed. Our sample included 2,589 older adult and caregiver dyads.
+        
+        Caregiver Factors
+        Caregiver characteristics and caregiving circumstances were self-reported in ICS and NSOC.
+        Sociodemographic caregiver characteristics included age, gender, and relationship to older
+        adult (spouse or non-spouse). Caregiving circumstances included duration of caregiving,
+        whether the caregiver lived with the older adult, employment status (holding paid
+        employment unrelated to caregiving), hours of care provided each week, type of help
+        provided, and self-rated health. Type of help encompassed self-care tasks, mobility, and
+        healthcare tasks. Healthcare tasks included medication management or assistance, skin,
+        wound, or dressing care, and administration of injections. We also examined measures of
+        caregiving support and challenges. Caregiving support included support group and respite
+        care use. Caregiving challenges refer to appraisal of financial strain, emotional strain, and
+        physical strain based on responses to questions about whether helping the participant was
+        financially, emotionally, or physically difficult for them.31'
+
+   {{
+        "PDF Path": ["PDFs/nihms-1645441.pdf"],
+        "Article title": ["Do Caregiving Factors Affect Hospitalization Risk Among Disabled Older Adults?"],
+        "Author Details": ["Amjad, H."],
+        "Year of publication": ["2021"],
+        "Sample size": ["Total: 2,589 community-living Medicare fee-for-service beneficiaries age ≥ 65 with self-care or mobility disability and their primary family or unpaid caregiver."],
+        "Caregiver population(s)": ["Caregivers are providing help to older adults with self-care or mobility disabilities, and 31% of these older adults have dementia." ],
+        "Caregiver definition":["Primary caregivers are defined as family or unpaid nonfamily caregivers who help the participant the most. In the NHATS-linked NSOC, the primary caregiver is the one providing the most hours of help weekly among the caregivers interviewed."],
+        "Assessment tools used to capture details about the caregiver network":["The study assessed caregiver characteristics and caregiving circumstances through self-reported surveys (ICS and NSOC). It included details such as caregiver age, gender, relationship to the older adult, duration of caregiving, living arrangement, employment status, hours of care provided weekly, type of help provided, and self-rated health. It also examined caregiving support and challenges, including support group and respite care use, and appraisal of financial, emotional, and physical strain."],
+        "Outcomes measures that were evaluated":["The study evaluated caregiver-reported characteristics and challenges, such as physical strain, emotional strain, financial strain, and the type and duration of care provided. It also assessed the impact of these factors on the risk of older adult hospitalization within 12 months."],
+    }}
+ 
