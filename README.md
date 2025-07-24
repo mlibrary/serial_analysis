@@ -81,7 +81,7 @@ Running these processes will produce initial results (so you can see that everyt
       1. docker build \-t serial\_analysis .
 
 You will get a screen that looks something like the screenshot below as the container is built. It may take a few minutes. Docker is configuring a container. It is installing all of the code libraries specified in the files in serial\_analysis that are needed to run the code for the serial analysis process.  
-![Screenshot of Mac Terminal window, showing the docker build command and its output.][image1]
+![Screenshot of Mac Terminal window, showing the docker build command and its output.][[image1](https://github.com/mlibrary/serial_analysis/blob/main/Screenshot.png)]
 
 2. Mac and Linux  
    1. docker run \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output serial\_analysis  
