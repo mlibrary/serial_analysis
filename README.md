@@ -23,8 +23,10 @@ This method involves:
 3. Installing and using [Docker](https://docs.docker.com/desktop/) on your computer  
    1. Using Docker requires running typed commands from a command line interface  
 4. Editing text files to configure and customize your analysis
+5. PDF files to process (instructions on how to obtain samples for testing are included below).
 
-   Note that at this time, this method can only be used with documents in PDF format. 
+   Note that at this time, this method can only be used with documents in PDF format.
+   
 
 ## Guide
 
@@ -76,9 +78,12 @@ Running these processes will produce initial results (so you can see that everyt
       2. copy env-example.txt .env  
 5. Open and read the env-example.txt file, which has important instructions within it.  
    1. populate the .env file with your key and shortcode, and **take great care not to share the file or its contents**.   
-6. back in the terminal application, On the command line, type:  
-   1. Mac, Linux and Windows  
-      1. docker build \-t serial\_analysis .
+   2. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run.
+      1. [https://pmc.ncbi.nlm.nih.gov/articles/PMC4090288/] (https://pmc.ncbi.nlm.nih.gov/articles/PMC4090288/)
+      2. [https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC2442159&blobtype=pdf] (https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC2442159&blobtype=pdf)
+   3. (i.e. 6. back in the terminal application, On the command line, type:  
+      1. Mac, Linux and Windows  
+      2. docker build \-t serial\_analysis .
 
 You will get a screen that looks something like the screenshot below as the container is built. It may take a few minutes. Docker is configuring a container. It is installing all of the code libraries specified in the files in serial\_analysis that are needed to run the code for the serial analysis process.  
 [[Screenshot of Mac Terminal window, showing the docker build command and its output.](https://github.com/mlibrary/serial_analysis/blob/main/Screenshot.png)]
@@ -90,8 +95,10 @@ You will get a screen that looks something like the screenshot below as the cont
 7. the results (CSV) will be output to the following location:  
    1. Mac and Linux: \~/serial\_analysis-main/input\_and\_output/extracted\_data.csv  
    2. Windows: %USERPROFILE%\\serial\_analysis-main/input\_and\_output/extracted\_data.csv
+  
+Note that if you did not download the "Main" code branch from GitHub, the paths immediately above that include "-main" might need to be adjusted to match your directory name.
 
-Note that with these default settings, the csv file will only have six columns because the fieldnames.txt file only designates six fields:
+Note that with these default settings, the csv output file will only have six columns because the fieldnames.txt file only designates six fields:
 
 PDF Path  
 Article title  
