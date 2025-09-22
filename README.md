@@ -51,7 +51,7 @@ This method involves:
    3. Docker is software that allows users to create and use “containers.” These are environments that run independently of other software on your computer and greatly simplify the task of developing applications and processes to run on multiple platforms (e.g., Windows, Mac, Linux).  
    4. We use Docker for that purpose here. After installing Docker, you will create a container that has all the files necessary to run the serial analysis process. You will just need to modify a few files (see below) and copy the documents you want to analyze to a designated folder.
 
-### Use Docker {#use-docker}
+### Use Docker
 
 The instructions below are to build a Docker container using a terminal application, such as:  
 Mac: Terminal  
@@ -122,7 +122,7 @@ Outcomes measures that were evaluated
 
 After you modify the file, you will need to run the docker build command again (see point 6a in the [Use Docker](#use-docker) section above) followed by the docker run command (see point 6b).
 
-### Edit Text Files to Customize Your Analysis {#edit-text-files-to-customize-your-analysis}
+### Edit Text Files to Customize Your Analysis
 
 The main files to modify to customize your analysis are in the input\_and\_output folder.
 
@@ -191,7 +191,7 @@ The main files to modify to customize your analysis are in the input\_and\_outpu
 
 Keep in mind that trial and error is often necessary to configure prompts to obtain the desired output, and patience may be necessary to work with the files and the API. Please reach out to [jjyork@umich.edu](mailto:jjyork@umich.edu) with any questions.
 
-## Appendix {#appendix}
+## Appendix
 
 Example:  
 Text: 'Author Manuscript Author Manuscript Author Manuscript Author Manuscript  
