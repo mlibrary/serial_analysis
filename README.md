@@ -79,8 +79,9 @@ Running these processes will produce initial results (so you can see that everyt
 5. Open and read the env-example.txt file, which has important instructions within it.  
    1. populate the .env file with your key and shortcode, and **take great care not to share the file or its contents**.   
    2. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run.
-      1. [[https://pmc.ncbi.nlm.nih.gov/articles/PMC4090288/] (https://pmc.ncbi.nlm.nih.gov/articles/PMC4090288/)]
-      2. [[https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC2442159&blobtype=pdf] (https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC2442159&blobtype=pdf)]
+      1. https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.16817
+      2. https://pmc.ncbi.nlm.nih.gov/articles/PMC4090288/
+      3. https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC2442159&blobtype=pdf
    3. (i.e. 6. back in the terminal application, On the command line, type:  
       1. Mac, Linux and Windows  
       2. docker build \-t serial\_analysis .
