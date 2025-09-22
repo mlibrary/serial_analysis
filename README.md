@@ -59,7 +59,7 @@ Windows: Windows Terminal
 Running these processes will produce initial results (so you can see that everything is working) which you can then customize for your needs (see [Edit Text Files to Customize Your Analysis](#edit-text-files-to-customize-your-analysis)) .
 
 1. Use a text editor of your choice to open and edit text files when instructed.  
-   1. Mac: e.g. TextEdit  
+   1. Mac: e.g. TextEdit or nano  
    2. Linux: e.g. nano or vim  
    3. Windows: Notepad  
 2. Download and place the serial\_analysis code directory in your home directory  
@@ -84,11 +84,11 @@ You will get a screen that looks something like the screenshot below as the cont
 [[Screenshot of Mac Terminal window, showing the docker build command and its output.](https://github.com/mlibrary/serial_analysis/blob/main/Screenshot.png)]
 
 2. Mac and Linux  
-   1. docker run \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output serial\_analysis  
+   1. docker run \-v \~/serial\_analysis-main/input\_and\_output:/input\_and\_output serial\_analysis  
    3. Windows  
-      1. docker run \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output serial\_analysis  
+      1. docker run \-v %USERPROFILE%\\serial\_analysis-main\\input\_and\_output:/input\_and\_output serial\_analysis  
 7. the results (CSV) will be output to the following location:  
-   1. Mac and Linux: \~/serial\_analysis/input\_and\_output/extracted\_data.csv  
+   1. Mac and Linux: \~/serial\_analysis-main/input\_and\_output/extracted\_data.csv  
    2. Windows: %USERPROFILE%\\serial\_analysis/input\_and\_output/extracted\_data.csv
 
 Note that with these default settings, the csv file will only have six columns because the fieldnames.txt file only designates six fields:
