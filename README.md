@@ -89,7 +89,7 @@ You will get a screen that looks something like the screenshot below as the cont
       1. docker run \-v %USERPROFILE%\\serial\_analysis-main\\input\_and\_output:/input\_and\_output serial\_analysis  
 7. the results (CSV) will be output to the following location:  
    1. Mac and Linux: \~/serial\_analysis-main/input\_and\_output/extracted\_data.csv  
-   2. Windows: %USERPROFILE%\\serial\_analysis/input\_and\_output/extracted\_data.csv
+   2. Windows: %USERPROFILE%\\serial\_analysis-main/input\_and\_output/extracted\_data.csv
 
 Note that with these default settings, the csv file will only have six columns because the fieldnames.txt file only designates six fields:
 
