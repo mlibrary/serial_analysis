@@ -64,19 +64,24 @@ Running these processes will produce initial results (so you can see that everyt
    1. Mac: e.g. TextEdit or nano  
    2. Linux: e.g. nano or vim  
    3. Windows: Notepad  
-2. Download and place the serial\_analysis code directory in your home directory  
+2.Download the serial\_analysis code directory from GitHub
+   1. Go specifically to: [https://github.com/mlibrary/serial_analysis] (https://github.com/mlibrary/serial_analysis)
+   2. From the green "<> Code" pop-up menu, choose "Download ZIP".
+   3. Double-click the .zip file to decompress it.
+4. Rename the resulting directory to "serial\_analysis" without anything else in the name, e.g. "-main".
+3. Place the serial\_analysis code directory in your home directory 
    1. Mac: /Users/username (or \~/)  
    2. Linux: /home/username (or \~/)  
    3. Windows: C:\\Users\\YourUsername\\ (or %USERPROFILE%)  
-3. Run the Docker desktop application  
-4. In the terminal application, On the command line, type:  
+4. Run the Docker desktop application  
+5. In the terminal application, On the command line, type:  
    1. Mac & Linux  
       1. cd \~/serial\_analysis  
       2. cp env-example.txt .env  
    2. Windows  
       1. cd %USERPROFILE%\\serial\_analysis  
       2. copy env-example.txt .env  
-5. Open and read the env-example.txt file, which has important instructions within it.  
+6. Open and read the env-example.txt file, which has important instructions within it.  
    1. populate the .env file with your key and shortcode, and **take great care not to share the file or its contents**.   
    2. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run.
       1. https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.16817
