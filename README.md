@@ -95,14 +95,13 @@ You will get a screen that looks something like the screenshot below as the cont
 [[Screenshot of Mac Terminal window, showing the docker build command and its output.](https://github.com/mlibrary/serial_analysis/blob/main/Screenshot.png)]
 
 2. Mac and Linux  
-   1. docker run \-v \~/serial\_analysis-main/input\_and\_output:/input\_and\_output serial\_analysis  
+   1. docker run \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output serial\_analysis  
    3. Windows  
-      1. docker run \-v %USERPROFILE%\\serial\_analysis-main\\input\_and\_output:/input\_and\_output serial\_analysis  
+      1. docker run \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output serial\_analysis  
 7. the results (CSV) will be output to the following location:  
-   1. Mac and Linux: \~/serial\_analysis-main/input\_and\_output/extracted\_data.csv  
-   2. Windows: %USERPROFILE%\\serial\_analysis-main/input\_and\_output/extracted\_data.csv
+   1. Mac and Linux: \~/serial\_analysis/input\_and\_output/extracted\_data.csv  
+   2. Windows: %USERPROFILE%\\serial\_analysis/input\_and\_output/extracted\_data.csv
   
-Note that if you did not download the "Main" code branch from GitHub, the paths immediately above that include "-main" might need to be adjusted to match your directory name.
 
 Note that with these default settings, the csv output file will only have six columns because the fieldnames.txt file only designates six fields:
 
