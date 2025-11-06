@@ -24,8 +24,11 @@ This method involves:
    1. Using Docker requires running typed commands from a command line interface  
 4. Editing text files to configure and customize your analysis
 5. PDF files to process (instructions on how to obtain samples for testing are included below).
+   1. PDF files containing fewer than 260,000 tokens of text, which is equivalent to about 96,000 words, or, roughly 300 pages of double spaced text.
 
-   Note that at this time, this method can only be used with documents in PDF format.
+   Note:
+   - At this time, this method can only be used with documents in PDF format.
+   - The OpenAI GPT4o model is being used.
    
 
 ## Guide
