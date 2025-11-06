@@ -4,3 +4,6 @@ Author Details
 Year of publication
 Sample size
 Caregiver population(s)
+Caregiver definition
+Assessment tools used to capture details about the caregiver network
+Outcomes measures that were evaluated
