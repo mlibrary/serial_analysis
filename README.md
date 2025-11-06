@@ -83,7 +83,7 @@ Running these processes will produce initial results (so you can see that everyt
       2. copy env-example.txt .env  
 6. Open and read the env-example.txt file, which has important instructions within it.  
    1. populate the .env file with your key and shortcode, and **take great care not to share the file or its contents**.   
-   2. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run.
+8. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run. **If you encounter paywalls, turn on the [UMICH VPN](https://its.umich.edu/enterprise/wifi-networks/vpn).**
       1. https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.16817
       2. https://pmc.ncbi.nlm.nih.gov/articles/PMC4090288/
       3. https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC2442159&blobtype=pdf
