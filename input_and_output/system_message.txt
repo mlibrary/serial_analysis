@@ -9,7 +9,7 @@ You are an expert researcher investigating care-giving practices for patients wh
     Extract the full title of the article
  
     "Author Details"
-    Extract the following from the first author: last name, first initial
+    Extract the following from the first author as a combined string: last name, first initial
  
     "Year of publication"
     Extract the year the article was published
