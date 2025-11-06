@@ -35,7 +35,6 @@ def assistant_message():
 
     {assistant_message}
  
---"""
 
 
 # Create usermessage function
@@ -46,13 +45,46 @@ TASK:
         {user_message} Include the pdf_path "{pdf_path}" in your response.
     TEXT: {text}
 
-"""
 
 def read_file_contents(file_path):
     #Reads the contents of a text file given its file path.
     with open(file_path, "r") as file:
         contents = file.read()
     return contents
+
+# Helper function to recursively flatten lists and nested dictionaries into a single string
+def normalize_value(value):
+    """Recursively flattens lists and dictionaries into a single comma-separated string, 
+    including keys for dictionary values."""
+    
+    if isinstance(value, list):
+        # If it's a list, recursively process each item and join them.
+        processed_items = [normalize_value(item) for item in value]
+        # Use filter(None, ...) to safely remove any empty strings resulting from recursion
+        return ", ".join(filter(None, processed_items))
+    
+    elif isinstance(value, dict):
+        # If it's a dictionary, we process key-value pairs to preserve context.
+        processed_pairs = []
+        for key, v in value.items():
+            # Recursively process the value (v) first
+            normalized_v = normalize_value(v)
+            
+            # If the normalized value is not empty, join the key and value with a colon and space
+            if normalized_v:
+                processed_pairs.append(f"{key}: {normalized_v}")
+                
+        return ", ".join(processed_pairs)
+    
+    elif value is None or value == "":
+        # Handle null or empty string values gracefully
+        return ""
+    
+    else:
+        # Base case: return strings, numbers, etc. as-is
+        return str(value)
+
+
 
 # Directory to read PDFs
 directory = '/input_and_output/PDFs'
@@ -111,16 +143,20 @@ with open(csv_file_path, 'w', newline='') as csv_file:
         json_response = response.choices[0].message.content
 
         try:
-            # Assumes the JSON response is correctly formatted, 
+            # Assumes the JSON response is correctly formatted,
             # which depends on a good example in the assistant_message, and UMGPT doing it well
             data = json.loads(json_response)
 
-            csv_writer.writerow({
-                fieldname: ", ".join(data[fieldname]) if isinstance(data.get(fieldname), list) else data.get(fieldname, "")
-                 for fieldname in fieldnames
-            })
-            
-            
+            # --- UPDATED CSV WRITING LOGIC ---
+            row_data = {}
+            for fieldname in fieldnames:
+                value = data.get(fieldname)
+                # Use the new helper function to ensure the value is a plain string
+                row_data[fieldname] = normalize_value(value)
+
+            csv_writer.writerow(row_data)
+            # ---------------------------------
+
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
 
