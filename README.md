@@ -103,28 +103,7 @@ You will get a screen that looks something like the screenshot below as the cont
    2. Windows: %USERPROFILE%\\serial\_analysis/input\_and\_output/extracted\_data.csv
   
 
-Note that with these default settings, the csv output file will only have six columns because the fieldnames.txt file only designates six fields:
 
-PDF Path  
-Article title  
-Author Details  
-Year of publication  
-Sample size  
-Caregiver population(s)
-
-To include all of the analyzed fields in the csv file, add the additional fields to the fieldnames.txt file so that it looks like this:
-
-PDF Path  
-Article title  
-Author Details  
-Year of publication  
-Sample size  
-Caregiver population(s)  
-Caregiver definition  
-Assessment tools used to capture details about the caregiver network  
-Outcomes measures that were evaluated
-
-After you modify the file, you will need to run the docker build command again (see point 6a in the [Use Docker](#use-docker) section above) followed by the docker run command (see point 6b).
 
 ### Edit Text Files to Customize Your Analysis
 
