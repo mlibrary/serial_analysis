@@ -28,7 +28,7 @@ This method involves:
 
    Note:
    - At this time, this method can only be used with documents in PDF format.
-   - The OpenAI GPT4o model is being used.
+   - The OpenAI GPT4o model is being used. The temperature is set to 0.0. This reduces randomness and diversity of responses, which often means less imaginative or unexpected content. 
    
 
 ## Guide
