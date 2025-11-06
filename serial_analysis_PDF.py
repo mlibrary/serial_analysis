@@ -34,7 +34,7 @@ def assistant_message():
     return f"""
 
     {assistant_message}
- 
+    --"""
 
 
 # Create usermessage function
@@ -44,7 +44,7 @@ def user_message(text):
 TASK:
         {user_message} Include the pdf_path "{pdf_path}" in your response.
     TEXT: {text}
-
+    """
 
 def read_file_contents(file_path):
     #Reads the contents of a text file given its file path.
