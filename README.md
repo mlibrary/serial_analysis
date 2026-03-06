@@ -80,11 +80,11 @@ Running these processes will produce initial results (so you can see that everyt
 5. In the terminal application, On the command line, type:  
    1. Mac & Linux  
       1. cd \~/serial\_analysis  
-      2. cp env-example.txt .env  
+      2. cp env.example.txt .env  
    2. Windows  
       1. cd %USERPROFILE%\\serial\_analysis  
-      2. copy env-example.txt .env  
-6. Open and read the env-example.txt file, which has important instructions within it.  
+      2. copy env.example.txt .env  
+6. Open and read the env.example.txt file, which has important instructions within it.  
    1. populate the .env file with your key and shortcode, and **take great care not to share the file or its contents**.   
 8. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run. **If you encounter paywalls, turn on the [UMICH VPN](https://its.umich.edu/enterprise/wifi-networks/vpn).**
       1. https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.16817
