@@ -22,14 +22,14 @@ except TypeError:
 
 
 def system_message():
-    system_message=read_file_contents('/input_and_output/system_message.txt')
+    system_message = read_file_contents('/input_and_output/system_message.txt')
     return f"""
     {system_message}
     """
 
 # Creates the assistant message for the api call.  The assistant message gives an example of how the LLM should respond.
 def assistant_message():
-    assistant_message=read_file_contents('/input_and_output/assistant_message.txt')
+    assistant_message = read_file_contents('/input_and_output/assistant_message.txt')
 
     return f"""
 
@@ -39,7 +39,7 @@ def assistant_message():
 
 # Create usermessage function
 def user_message(text):
-    user_message=read_file_contents('/input_and_output/user_message.txt')
+    user_message = read_file_contents('/input_and_output/user_message.txt')
     return f"""
 TASK:
         {user_message} Include the source_path "{source_path}" in your response.
@@ -62,6 +62,21 @@ def is_binary_file(file_path, chunk_size=4096):
         return False
     except UnicodeDecodeError:
         return True
+
+def read_pdf_text(source_path):
+    # Import all text (and nothing but text) from the PDF
+    with open(source_path, 'rb') as pdf_file:
+        pdf_reader = PdfReader(pdf_file)
+        source_text = ""
+        for page in pdf_reader.pages:
+            extracted = page.extract_text()
+            if extracted:
+                source_text += extracted
+    return source_text
+
+def read_text_file(source_path):
+    with open(source_path, 'r', encoding='utf-8') as txt_file:
+        return txt_file.read()
 
 # Helper function to recursively flatten lists and nested dictionaries into a single string
 def normalize_value(value):
@@ -96,10 +111,52 @@ def normalize_value(value):
         return str(value)
 
 
+def process_source(source_path, source_text, client, fieldnames, csv_writer):
+    # Create Query
+    messages = [
+        {"role": "system", "content": system_message()},
+        {"role": "assistant", "content": assistant_message()},
+        {"role": "user", "content": user_message(text=source_text)}
+    ]
+
+    # Make the call to the UMGPT Toolkit Azure API
+    response = client.chat.completions.create(
+        model=os.environ['MODEL'],
+        messages=messages,
+        temperature=0.0,
+        response_format={ "type": "json_object" }
+    )
+
+    # Parse JSON UMGPT Toolkit response
+    json_response = response.choices[0].message.content
+
+    try:
+        # Assumes the JSON response is correctly formatted,
+        # which depends on a good example in the assistant_message, and UMGPT doing it well
+        data = json.loads(json_response)
+
+        # --- UPDATED CSV WRITING LOGIC ---
+        row_data = {}
+        for fieldname in fieldnames:
+            value = data.get(fieldname)
+            # Use the helper function to ensure the value is a plain string
+            row_data[fieldname] = normalize_value(value)
+
+        csv_writer.writerow(row_data)
+        # ---------------------------------
+
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+
+    # Wait X seconds between requests our of respect for the API service and to avoid throttling
+    # Maybe not necessary if each API call takes more than a few seconds, 
+    # which depends in part on how large the files are: 
+    time.sleep(1)
+
 
 # Directory to read PDFs
-directory = '/input_and_output/PDFs'
-directory_path = Path(directory)
+pdf_directory = '/input_and_output/PDFs'
+pdf_directory_path = Path(pdf_directory)
 
 # Directory to read TXT (and any non-binary files regardless of extension)
 txt_directory = '/input_and_output/TXT'
@@ -112,6 +169,13 @@ csv_file_path = '/input_and_output/extracted_data.csv'
 # the list of fieldnames should match the list of fieldnames in the assistant_message JSON example
 fieldnames = read_file_contents('/input_and_output/fieldnames.txt').splitlines()
 
+# Create Azure client once (more efficient than recreating per file)
+client = AzureOpenAI(
+    api_key=os.environ['OPENAI_API_KEY'],  
+    api_version=os.environ['API_VERSION'],
+    azure_endpoint=os.environ['OPENAI_API_BASE'],
+    organization=os.environ['OPENAI_ORGANIZATION']
+)
 
 # Open CSV file for writing
 with open(csv_file_path, 'w', newline='') as csv_file:
@@ -121,121 +185,18 @@ with open(csv_file_path, 'w', newline='') as csv_file:
     # Write the header
     csv_writer.writeheader()
 
-    for source_path in directory_path.glob('*.pdf'):
+    # Process PDFs
+    for source_path in pdf_directory_path.glob('*.pdf'):
         print(source_path.name, flush=True)
-        # Import all text (and nothing but text) from the PDF
-        with open(source_path, 'rb') as pdf_file:
-            pdf_reader = PdfReader(pdf_file)
-            source_text = ""
-            for page in pdf_reader.pages:
-                source_text += page.extract_text()
+        source_text = read_pdf_text(source_path)
+        process_source(source_path, source_text, client, fieldnames, csv_writer)
 
-        # Create Azure client
-        client = AzureOpenAI(
-            api_key=os.environ['OPENAI_API_KEY'],  
-            api_version=os.environ['API_VERSION'],
-            azure_endpoint=os.environ['OPENAI_API_BASE'],
-            organization=os.environ['OPENAI_ORGANIZATION']
-        )   
-
-        # Create Query
-        messages = [
-                {"role": "system", "content": system_message()},
-                {"role": "assistant", "content": assistant_message()},
-                {"role": "user", "content": user_message(text=source_text)}
-            ]
-
-
-        # Make the call to the UMGPT Toolkit Azure API
-        response = client.chat.completions.create(
-            model=os.environ['MODEL'],
-            messages=messages,
-            temperature=0.0,
-            response_format={ "type": "json_object" }
-        )
-
-        # Parse JSON UMGPT Toolkit response
-        json_response = response.choices[0].message.content
-
-        try:
-            # Assumes the JSON response is correctly formatted,
-            # which depends on a good example in the assistant_message, and UMGPT doing it well
-            data = json.loads(json_response)
-
-            # --- UPDATED CSV WRITING LOGIC ---
-            row_data = {}
-            for fieldname in fieldnames:
-                value = data.get(fieldname)
-                # Use the new helper function to ensure the value is a plain string
-                row_data[fieldname] = normalize_value(value)
-
-            csv_writer.writerow(row_data)
-            # ---------------------------------
-
-        except json.JSONDecodeError as e:
-            print(f"Error decoding JSON: {e}")
-
-        # Wait X seconds between requests our of respect for the API service and to avoid throttling
-        # Maybe not necessary if each API call takes more than a few seconds, 
-        # which depends in part on how large the files are: 
-        time.sleep(1)
-
+    # Process non-binary files under TXT (any extension)
     for source_path in txt_directory_path.rglob('*'):
         if source_path.is_file() and not is_binary_file(source_path):
             print(source_path.name, flush=True)
-
-            with open(source_path, 'r', encoding='utf-8') as txt_file:
-                source_text = txt_file.read()
-
-            # Create Azure client
-            client = AzureOpenAI(
-                api_key=os.environ['OPENAI_API_KEY'],  
-                api_version=os.environ['API_VERSION'],
-                azure_endpoint=os.environ['OPENAI_API_BASE'],
-                organization=os.environ['OPENAI_ORGANIZATION']
-            )   
-
-            # Create Query
-            messages = [
-                    {"role": "system", "content": system_message()},
-                    {"role": "assistant", "content": assistant_message()},
-                    {"role": "user", "content": user_message(text=source_text)}
-                ]
-
-
-            # Make the call to the UMGPT Toolkit Azure API
-            response = client.chat.completions.create(
-                model=os.environ['MODEL'],
-                messages=messages,
-                temperature=0.0,
-                response_format={ "type": "json_object" }
-            )
-
-            # Parse JSON UMGPT Toolkit response
-            json_response = response.choices[0].message.content
-
-            try:
-                # Assumes the JSON response is correctly formatted,
-                # which depends on a good example in the assistant_message, and UMGPT doing it well
-                data = json.loads(json_response)
-
-                # --- UPDATED CSV WRITING LOGIC ---
-                row_data = {}
-                for fieldname in fieldnames:
-                    value = data.get(fieldname)
-                    # Use the new helper function to ensure the value is a plain string
-                    row_data[fieldname] = normalize_value(value)
-
-                csv_writer.writerow(row_data)
-                # ---------------------------------
-
-            except json.JSONDecodeError as e:
-                print(f"Error decoding JSON: {e}")
-
-            # Wait X seconds between requests our of respect for the API service and to avoid throttling
-            # Maybe not necessary if each API call takes more than a few seconds, 
-            # which depends in part on how large the files are: 
-            time.sleep(1)
+            source_text = read_text_file(source_path)
+            process_source(source_path, source_text, client, fieldnames, csv_writer)
 
 print(f"Data successfully written to {csv_file_path}")
 
