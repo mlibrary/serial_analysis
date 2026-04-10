@@ -75,8 +75,13 @@ def read_pdf_text(source_path):
     return source_text
 
 def read_text_file(source_path):
-    with open(source_path, 'r', encoding='utf-8') as txt_file:
-        return txt_file.read()
+    try:
+        with open(source_path, 'r', encoding='utf-8') as txt_file:
+            return txt_file.read()
+    except UnicodeDecodeError:
+        print(f"Warning: UnicodeDecodeError in file (skipping bad characters): {source_path}", flush=True)
+        with open(source_path, 'r', encoding='utf-8', errors='ignore') as txt_file:
+            return txt_file.read()
 
 # Helper function to recursively flatten lists and nested dictionaries into a single string
 def normalize_value(value):
@@ -185,18 +190,18 @@ with open(csv_file_path, 'w', newline='') as csv_file:
     # Write the header
     csv_writer.writeheader()
 
-    # Process PDFs
-    for source_path in pdf_directory_path.glob('*.pdf'):
+    # Process PDFs (sorted alphanumerically by filename)
+    for source_path in sorted(pdf_directory_path.glob('*.pdf'), key=lambda p: p.name):
         print(source_path.name, flush=True)
         source_text = read_pdf_text(source_path)
         process_source(source_path, source_text, client, fieldnames, csv_writer)
 
-    # Process non-binary files under TXT (any extension)
-    for source_path in txt_directory_path.rglob('*'):
-        if source_path.is_file() and not is_binary_file(source_path):
-            print(source_path.name, flush=True)
-            source_text = read_text_file(source_path)
-            process_source(source_path, source_text, client, fieldnames, csv_writer)
+    # Process non-binary files under TXT (any extension), recursively (sorted alphanumerically by filename)
+    txt_files = [p for p in txt_directory_path.rglob('*') if p.is_file() and not is_binary_file(p)]
+    for source_path in sorted(txt_files, key=lambda p: p.name):
+        print(source_path.name, flush=True)
+        source_text = read_text_file(source_path)
+        process_source(source_path, source_text, client, fieldnames, csv_writer)
 
 print(f"Data successfully written to {csv_file_path}")
 
