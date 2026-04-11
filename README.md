@@ -113,8 +113,10 @@ You will get a screen that looks something like the screenshot below as the cont
 The main files to modify to customize your analysis are in the input\_and\_output folder.
 
 * PDFs  
-  * This is the folder where you will put your PDF documents for analysis. Add your own documents.   
-  * Only PDF documents are supported at this time.  
+  * This is the folder where you will put PDF documents for analysis. Add your own documents.   
+* TXT
+  * You'll need to create this folder just the way you created PDFs for the initial test. This is where you will put plain text files for analysis. Any non-binary file in this folder will be evaluated, regardless of file extension.
+
 * You should see 3 files:  
   * assistant\_message.txt  
     * The API requires the user to provide an example of the text the LLM will encounter and an example of how the LLM should respond.  
@@ -204,7 +206,7 @@ Caregiver Factors
 Caregiver characteristics and caregiving circumstances were self-reported in ICS and NSOC. Sociodemographic caregiver characteristics included age, gender, and relationship to older adult (spouse or non-spouse). Caregiving circumstances included duration of caregiving, whether the caregiver lived with the older adult, employment status (holding paid employment unrelated to caregiving), hours of care provided each week, type of help provided, and self-rated health. Type of help encompassed self-care tasks, mobility, and healthcare tasks. Healthcare tasks included medication management or assistance, skin, wound, or dressing care, and administration of injections. We also examined measures of caregiving support and challenges. Caregiving support included support group and respite care use. Caregiving challenges refer to appraisal of financial strain, emotional strain, and physical strain based on responses to questions about whether helping the participant was financially, emotionally, or physically difficult for them.31'
 
    {{  
-        "PDF Path": \["PDFs/nihms-1645441.pdf"\],  
+        "Source Path": \["PDFs/nihms-1645441.pdf"\],  
         "Article title": \["Do Caregiving Factors Affect Hospitalization Risk Among Disabled Older Adults?"\],  
         "Author Details": \["Amjad, H."\],  
         "Year of publication": \["2021"\],  
