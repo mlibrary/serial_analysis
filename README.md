@@ -67,7 +67,7 @@ Running these processes will produce initial results (so you can see that everyt
    1. Mac: e.g. TextEdit or nano  
    2. Linux: e.g. nano or vim  
    3. Windows: Notepad  
-2.Download the serial\_analysis code directory from GitHub
+2. Download the serial\_analysis code directory from GitHub
    1. Go specifically to: [https://github.com/mlibrary/serial_analysis] (https://github.com/mlibrary/serial_analysis)
    2. From the green "<> Code" pop-up menu, choose "Download ZIP".
    3. Double-click the .zip file to decompress it.
@@ -86,11 +86,11 @@ Running these processes will produce initial results (so you can see that everyt
       2. copy env.example.txt .env  
 6. Open and read the env.example.txt file, which has important instructions within it.  
    1. populate the .env file with your key and shortcode, and **take great care not to share the file or its contents**.   
-8. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run. **If you encounter paywalls, turn on the [UMICH VPN](https://its.umich.edu/enterprise/wifi-networks/vpn).**
+7. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run. **If you encounter paywalls, turn on the [UMICH VPN](https://its.umich.edu/enterprise/wifi-networks/vpn).**
       1. https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.16817
       2. https://pmc.ncbi.nlm.nih.gov/articles/PMC4090288/
       3. https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC2442159&blobtype=pdf
-   3. (i.e. 6. back in the terminal application, On the command line, type:  
+8. back in the terminal application, On the command line, type:  
       1. Mac, Linux and Windows  
       2. docker build \-t serial\_analysis .
 
