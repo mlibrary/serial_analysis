@@ -2,11 +2,13 @@ from openai import AzureOpenAI
 import openai
 import os
 from dotenv import load_dotenv
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 from pathlib import Path
 import time
 import csv
 import json
+import pytesseract # for OCR generation 
+from pdf2image import convert_from_path # for OCR generation
 
 #Sets the current working directory to be the same as the file.
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -65,13 +67,35 @@ def is_binary_file(file_path, chunk_size=4096):
 
 def read_pdf_text(source_path):
     # Import all text (and nothing but text) from the PDF
-    with open(source_path, 'rb') as pdf_file:
-        pdf_reader = PdfReader(pdf_file)
-        source_text = ""
-        for page in pdf_reader.pages:
-            extracted = page.extract_text()
-            if extracted:
-                source_text += extracted
+    # 1. Attempt standard text extraction
+    source_text = ""
+    try:
+        with open(source_path, 'rb') as pdf_file:
+            pdf_reader = PdfReader(pdf_file)
+            for page in pdf_reader.pages:
+                extracted = page.extract_text()
+                if extracted:
+                    source_text += extracted
+    except Exception as e:
+        print(f"   Error reading PDF structure for {source_path.name}: {e}")
+
+    # 2. Check if we actually got meaningful text
+    # (Threshold of 50 chars ignores random metadata/page numbers)
+    if len(source_text.strip()) < 50:
+        print(f"   {source_path.name} appears to be a scan or has no text. Starting OCR...")
+        try:
+            # Convert PDF to images
+            images = convert_from_path(source_path, dpi=200)
+            
+            ocr_text = ""
+            for image in images:
+                ocr_text += pytesseract.image_to_string(image)
+            
+            return ocr_text
+        except Exception as ocr_err:
+            print(f"   OCR failed for {source_path.name}: {ocr_err}")
+            return "" # Return empty so the loop skip logic triggers
+    
     return source_text
 
 def read_text_file(source_path):
@@ -125,12 +149,18 @@ def process_source(source_path, source_text, client, fieldnames, csv_writer):
     ]
 
     # Make the call to the UMGPT Toolkit Azure API
-    response = client.chat.completions.create(
-        model=os.environ['MODEL'],
-        messages=messages,
-        temperature=0.0,
-        response_format={ "type": "json_object" }
-    )
+    try:
+    	response = client.chat.completions.create(
+        	model=os.environ['MODEL'],
+        	messages=messages,
+        	temperature=0.0,
+        	response_format={ "type": "json_object" }
+    	)
+    except Exception as e:
+        print(f"!!! Error on {pdf_path.name}: {e}")
+        # This 'continue' tells Python to skip the rest of the loop 
+        # for THIS file and move to the next PDF instead of crashing.
+        return
 
     # Parse JSON UMGPT Toolkit response
     json_response = response.choices[0].message.content
@@ -194,6 +224,12 @@ with open(csv_file_path, 'w', newline='') as csv_file:
     for source_path in sorted(pdf_directory_path.glob('*.pdf'), key=lambda p: p.name):
         print(source_path.name, flush=True)
         source_text = read_pdf_text(source_path)
+
+        # Skip if no text found even after OCR attempt
+        if not source_text.strip():
+            print(f"   Skipping {source_path.name}: No text could be extracted.")
+            continue
+        
         process_source(source_path, source_text, client, fieldnames, csv_writer)
 
     # Process non-binary files under TXT (any extension), recursively (sorted alphanumerically by filename)
