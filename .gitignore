@@ -3,5 +3,5 @@
 .python_history
 .cache/
 *.pdf
-*.csv
 .DS_Store
+input_and_output/

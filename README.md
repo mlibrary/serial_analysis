@@ -89,6 +89,7 @@ Running these processes will produce initial results (so you can see that everyt
       2. copy env.example.txt .env  
 6. Open and read the env.example.txt file, which has important instructions within it.  
    1. populate the .env file with your key and shortcode, and **take great care not to share the file or its contents**.   
+   2. **Security Note**: The .env file stays on your computer and is mounted to the Docker container at runtime (not copied into the image). This keeps your API key secure and prevents it from being embedded in shareable Docker images.  
 7. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run. **If you encounter paywalls, turn on the [UMICH VPN](https://its.umich.edu/enterprise/wifi-networks/vpn).**
       1. https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.16817
       2. https://pmc.ncbi.nlm.nih.gov/articles/PMC4090288/
@@ -101,9 +102,9 @@ You will get a screen that looks something like the screenshot below as the cont
 [[Screenshot of Mac Terminal window, showing the docker build command and its output.](https://github.com/mlibrary/serial_analysis/blob/main/Screenshot.png)]
 
 2. Mac and Linux  
-   1. docker run \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output serial\_analysis  
+   1. docker run \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output \-v \~/serial\_analysis/.env:/usr/src/app/.env:ro serial\_analysis  
    3. Windows  
-      1. docker run \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output serial\_analysis  
+      1. docker run \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output \-v %USERPROFILE%\\serial\_analysis\\.env:/usr/src/app/.env:ro serial\_analysis  
 7. the results (CSV) will be output to the following location:  
    1. Mac and Linux: \~/serial\_analysis/input\_and\_output/extracted\_data.csv  
    2. Windows: %USERPROFILE%\\serial\_analysis/input\_and\_output/extracted\_data.csv
@@ -173,9 +174,9 @@ The main files to modify to customize your analysis are in the input\_and\_outpu
         
 * After you customize these files, you will need to run the docker run command again:  
   * Mac and Linux  
-    * docker run \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output serial\_analysis  
+    * docker run \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output \-v \~/serial\_analysis/.env:/usr/src/app/.env:ro serial\_analysis  
   * Windows  
-    * docker run \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output serial\_analysis  
+    * docker run \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output \-v %USERPROFILE%\\serial\_analysis\\.env:/usr/src/app/.env:ro serial\_analysis  
 * The new results will overwrite the old results in:  
   * Mac and Linux:  \~/serial\_analysis/input\_and\_output/extracted\_data.csv  
   * Windows: %USERPROFILE%\\serial\_analysis/input\_and\_output/extracted\_data.csv

@@ -59,11 +59,15 @@ def is_binary_file(file_path, chunk_size=4096):
         chunk = f.read(chunk_size)
     if b'\x00' in chunk:
         return True
-    try:
-        chunk.decode('utf-8')
-        return False
-    except UnicodeDecodeError:
-        return True
+    # Try multiple common encodings
+    for encoding in ['utf-8', 'latin-1', 'iso-8859-1', 'cp1252']:
+        try:
+            chunk.decode(encoding)
+            return False
+        except (UnicodeDecodeError, LookupError):
+            continue
+    # If none of the common encodings work, consider it binary
+    return True
 
 def read_pdf_text(source_path):
     # Import all text (and nothing but text) from the PDF
@@ -233,11 +237,15 @@ with open(csv_file_path, 'w', newline='') as csv_file:
         process_source(source_path, source_text, client, fieldnames, csv_writer)
 
     # Process non-binary files under TXT (any extension), recursively (sorted alphanumerically by filename)
-    txt_files = [p for p in txt_directory_path.rglob('*') if p.is_file() and not is_binary_file(p)]
-    for source_path in sorted(txt_files, key=lambda p: p.name):
-        print(source_path.name, flush=True)
-        source_text = read_text_file(source_path)
-        process_source(source_path, source_text, client, fieldnames, csv_writer)
+    if txt_directory_path.exists():
+        txt_files = [p for p in txt_directory_path.rglob('*') if p.is_file() and not is_binary_file(p)]
+        print(f"Found {len(txt_files)} text files to process", flush=True)
+        for source_path in sorted(txt_files, key=lambda p: p.name):
+            print(source_path.name, flush=True)
+            source_text = read_text_file(source_path)
+            process_source(source_path, source_text, client, fieldnames, csv_writer)
+    else:
+        print(f"TXT directory not found at {txt_directory_path}", flush=True)
 
 print(f"Data successfully written to {csv_file_path}")
 
