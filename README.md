@@ -32,6 +32,28 @@ This method involves:
    - OCR processing will take longer than direct text extraction. OCR accuracy depends on image quality and may not be perfect.
    - Plain text files of any extension can be placed in the TXT folder and will be processed recursively.
    - The OpenAI GPT4o model is being used. The temperature is set to 0.0. This reduces randomness and diversity of responses, which often means less imaginative or unexpected content. 
+
+## File Size and Processing Limits
+
+For security and performance reasons, the following limits are enforced per file:
+
+- **Maximum file size**: 200 MB per file
+- **Maximum text content**: 1,200,000 characters (~300,000 tokens) per file
+- **Maximum OCR pages**: 500 pages per file (for scanned PDFs)
+- **OCR timeout**: 40 minutes per file
+
+These are safety limits to prevent:
+- Processing malformed or malicious files that could crash the system
+- Excessive API costs from accidentally processing huge files
+- Denial of service attacks
+
+**Important**: These limits apply to each file individually, not cumulatively. You can process unlimited files in a batch, as long as each individual file stays within these limits.
+
+**To adjust limits**: If you need to process larger files, you can modify the values at the top of `serial_analysis_PDF.py`:
+- `MAX_FILE_SIZE_MB` - Maximum file size in megabytes
+- `MAX_TEXT_LENGTH` - Maximum text characters to process
+- `MAX_OCR_PAGES` - Maximum pages to OCR per file
+- `OCR_TIMEOUT_SECONDS` - Timeout for OCR processing
    
 
 ## Guide
@@ -89,7 +111,7 @@ Running these processes will produce initial results (so you can see that everyt
       2. copy env.example.txt .env  
 6. Open and read the env.example.txt file, which has important instructions within it.  
    1. populate the .env file with your key and shortcode, and **take great care not to share the file or its contents**.   
-   2. **Security Note**: The .env file stays on your computer and is mounted to the Docker container at runtime (not copied into the image). This keeps your API key secure and prevents it from being embedded in shareable Docker images.  
+   2. **Security Note**: The .env file stays on your computer and is mounted to the Docker container at runtime (not copied into the image). This keeps your API key secure and prevents it from being embedded in shareable Docker images. The `:ro` (read-only) flag ensures the container cannot modify your .env file.  
 7. create a folder in the input_and_output directory named "PDFs" and place the following PDFs within it for the initial test run. **If you encounter paywalls, turn on the [UMICH VPN](https://its.umich.edu/enterprise/wifi-networks/vpn).**
       1. https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.16817
       2. https://pmc.ncbi.nlm.nih.gov/articles/PMC4090288/
@@ -101,11 +123,12 @@ Running these processes will produce initial results (so you can see that everyt
 You will get a screen that looks something like the screenshot below as the container is built. It may take a few minutes. Docker is configuring a container. It is installing all of the code libraries specified in the files in serial\_analysis that are needed to run the code for the serial analysis process.  
 [[Screenshot of Mac Terminal window, showing the docker build command and its output.](https://github.com/mlibrary/serial_analysis/blob/main/Screenshot.png)]
 
-2. Mac and Linux  
-   1. docker run \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output \-v \~/serial\_analysis/.env:/usr/src/app/.env:ro serial\_analysis  
-   3. Windows  
-      1. docker run \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output \-v %USERPROFILE%\\serial\_analysis\\.env:/usr/src/app/.env:ro serial\_analysis  
-7. the results (CSV) will be output to the following location:  
+9. Run the analysis by typing the following command. This mounts your local `input_and_output` folder and `.env` file into the container so the script can access your PDFs and API credentials. The `--rm` flag automatically removes the Docker container after it finishes running.
+   1. Mac and Linux  
+      1. docker run \-\-rm \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output \-v \~/serial\_analysis/.env:/usr/src/app/.env:ro serial\_analysis  
+   2. Windows  
+      1. docker run \-\-rm \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output \-v %USERPROFILE%\\serial\_analysis\\.env:/usr/src/app/.env:ro serial\_analysis  
+10. the results (CSV) will be output to the following location:  
    1. Mac and Linux: \~/serial\_analysis/input\_and\_output/extracted\_data.csv  
    2. Windows: %USERPROFILE%\\serial\_analysis/input\_and\_output/extracted\_data.csv
   
@@ -120,6 +143,8 @@ The main files to modify to customize your analysis are in the input\_and\_outpu
   * This is the folder where you will put PDF documents for analysis. Add your own documents.   
 * TXT
   * You'll need to create this folder just the way you created PDFs for the initial test. This is where you will put plain text files for analysis. Any non-binary file in this folder will be evaluated, regardless of file extension.
+
+**Note**: Files that exceed the size or content limits (see [File Size and Processing Limits](#file-size-and-processing-limits)) will be automatically skipped with a message indicating why. To adjust these limits, edit the configuration values at the top of `serial_analysis_PDF.py`.
 
 * You should see 3 files:  
   * assistant\_message.txt  
@@ -174,9 +199,9 @@ The main files to modify to customize your analysis are in the input\_and\_outpu
         
 * After you customize these files, you will need to run the docker run command again:  
   * Mac and Linux  
-    * docker run \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output \-v \~/serial\_analysis/.env:/usr/src/app/.env:ro serial\_analysis  
+    * docker run \-\-rm \-v \~/serial\_analysis/input\_and\_output:/input\_and\_output \-v \~/serial\_analysis/.env:/usr/src/app/.env:ro serial\_analysis  
   * Windows  
-    * docker run \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output \-v %USERPROFILE%\\serial\_analysis\\.env:/usr/src/app/.env:ro serial\_analysis  
+    * docker run \-\-rm \-v %USERPROFILE%\\serial\_analysis\\input\_and\_output:/input\_and\_output \-v %USERPROFILE%\\serial\_analysis\\.env:/usr/src/app/.env:ro serial\_analysis  
 * The new results will overwrite the old results in:  
   * Mac and Linux:  \~/serial\_analysis/input\_and\_output/extracted\_data.csv  
   * Windows: %USERPROFILE%\\serial\_analysis/input\_and\_output/extracted\_data.csv
