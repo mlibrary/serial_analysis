@@ -31,7 +31,20 @@ RUN pip install pytesseract pdf2image
 
 # Copy only the necessary files into the container at /usr/src/app
 COPY *.py ./
-COPY .env ./
+
+# Note: .env file is mounted at runtime for security (not copied into image)
+
+# Create a non-root user for security
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+# Create and set permissions for mounted volume directory
+RUN mkdir -p /input_and_output && chown -R appuser:appuser /input_and_output
+
+# Change ownership of application directory
+RUN chown -R appuser:appuser /usr/src/app
+
+# Switch to non-root user
+USER appuser
 
 # Run app.py when the container launches
 CMD ["python", "./serial_analysis_PDF.py"]
