@@ -85,7 +85,7 @@ pydantic==2.9.2
 pydantic-settings==2.5.2
 pydantic_core==2.23.4
 Pygments==2.18.0
-pypdf==5.0.1
+pypdf==6.9.2
 PyPika==0.48.9
 pyproject_hooks==1.2.0
 python-dateutil==2.9.0.post0
@@ -120,3 +120,4 @@ websockets==13.1
 wrapt==1.16.0
 yarl==1.13.1
 zipp==3.20.2
+pycryptodome==3.23.0

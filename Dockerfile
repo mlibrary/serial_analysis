@@ -19,6 +19,16 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN pip install PyPDF2
 
+# Update packages and install Poppler and Tesseract
+RUN apt-get update && apt-get install -y \
+poppler-utils \
+tesseract-ocr \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
+
+# Install the Python wrappers
+RUN pip install pytesseract pdf2image
+
 # Copy only the necessary files into the container at /usr/src/app
 COPY *.py ./
 COPY .env ./

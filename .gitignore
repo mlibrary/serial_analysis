@@ -2,3 +2,6 @@
 .bash_history
 .python_history
 .cache/
+*.pdf
+*.csv
+.DS_Store
