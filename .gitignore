@@ -5,6 +5,3 @@
 .pdf
 .csv
 .DS_Store
-input_and_output/move-analyzed-pdfs.py
-input_and_output/files_to_move.txt
-serial_analysis_PDF.py.bak
