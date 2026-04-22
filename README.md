@@ -23,11 +23,14 @@ This method involves:
 3. Installing and using [Docker](https://docs.docker.com/desktop/) on your computer  
    1. Using Docker requires running typed commands from a command line interface  
 4. Editing text files to configure and customize your analysis
-5. PDF files to process (instructions on how to obtain samples for testing are included below).
-   1. PDF files containing fewer than 260,000 tokens of text, which is equivalent to about 96,000 words, or, roughly 300 pages of double spaced text.
+5. PDF or plain text files to process (instructions on how to obtain samples for testing are included below).
+   1. Files containing fewer than 260,000 tokens of text, which is equivalent to about 96,000 words, or, roughly 300 pages of double spaced text.
 
    Note:
-   - At this time, this method can only be used with documents in PDF format.
+   - This method supports both PDF and plain text files.
+   - PDFs with extractable text are processed directly. Scanned PDFs or image-based PDFs are automatically processed using OCR (Tesseract).
+   - OCR processing will take longer than direct text extraction. OCR accuracy depends on image quality and may not be perfect.
+   - Plain text files of any extension can be placed in the TXT folder and will be processed recursively.
    - The OpenAI GPT4o model is being used. The temperature is set to 0.0. This reduces randomness and diversity of responses, which often means less imaginative or unexpected content. 
    
 
