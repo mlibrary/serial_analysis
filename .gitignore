@@ -4,4 +4,5 @@
 .cache/
 *.pdf
 .DS_Store
+archive/
 input_and_output/
